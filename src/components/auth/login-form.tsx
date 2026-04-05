@@ -31,7 +31,7 @@ export function LoginForm() {
 				return;
 			}
 
-			router.push("/editor");
+			router.push("/distill");
 		} catch {
 			setError("Something went wrong. Please try again.");
 			setLoading(false);
