@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Edit, LogOut } from "lucide-react";
+import { History, LogOut, Mic, Wand2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -20,20 +20,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 			<nav className="border-b bg-card">
 				<div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
 					<div className="flex items-center gap-6">
-						<Link href="/editor" className="text-lg font-semibold">
-							LinkBio
+						<Link href="/distill" className="flex items-center gap-2 text-lg font-semibold">
+							<Mic className="h-5 w-5" />
+							Distill
 						</Link>
 						<div className="flex items-center gap-1">
-							<Link href="/editor">
+							<Link href="/distill">
 								<Button variant="ghost" size="sm">
-									<Edit className="mr-2 h-4 w-4" />
-									Editor
+									<Wand2 className="mr-2 h-4 w-4" />
+									Distill
 								</Button>
 							</Link>
-							<Link href="/analytics">
+							<Link href="/voice-profile">
 								<Button variant="ghost" size="sm">
-									<BarChart3 className="mr-2 h-4 w-4" />
-									Analytics
+									<Mic className="mr-2 h-4 w-4" />
+									Voice
+								</Button>
+							</Link>
+							<Link href="/history">
+								<Button variant="ghost" size="sm">
+									<History className="mr-2 h-4 w-4" />
+									History
 								</Button>
 							</Link>
 						</div>

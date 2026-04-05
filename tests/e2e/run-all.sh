@@ -2,7 +2,7 @@
 set -e
 
 echo "========================================"
-echo "  Link-in-Bio E2E Test Suite"
+echo "  Distill E2E Test Suite"
 echo "========================================"
 echo ""
 
@@ -40,9 +40,7 @@ run_test() {
 # Run tests in order
 run_test "Signup Flow" "tests/e2e/signup.sh"
 run_test "Login Flow" "tests/e2e/login.sh"
-run_test "Profile Editing" "tests/e2e/editor.sh"
-run_test "Link CRUD" "tests/e2e/links.sh"
-run_test "Drag-and-Drop Reorder" "tests/e2e/reorder.sh"
+run_test "Distill Text Input" "tests/e2e/distill-text.sh"
 
 # Summary
 echo ""

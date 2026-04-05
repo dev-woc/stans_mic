@@ -37,6 +37,11 @@ yarn-error.log*
 # E2E screenshots
 tests/e2e/screenshots/
 
+# python
+__pycache__/
+*.pyc
+*.pyo
+
 # vercel
 .vercel
 

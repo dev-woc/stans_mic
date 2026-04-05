@@ -1,6 +1,6 @@
-# Link-in-Bio Page Builder
+# Distill
 
-A full-stack link-in-bio page builder where users can create a personalized page with links, headers, and dividers — similar to Linktree. Built with Next.js 15, React 19, and Neon Postgres.
+An AI agentic tool that turns raw creator content — voice memos, videos, notes — into a tight 3-minute script in the creator's own voice. Built with Next.js 15, React 19, and Neon Postgres.
 
 ## Features
 

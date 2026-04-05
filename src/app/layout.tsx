@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Link in Bio Page Builder",
-	description: "Create your personal link-in-bio page",
+	title: "Distill",
+	description: "Turn your raw ideas into a 3-minute script in your own voice",
 };
 
 export default function RootLayout({

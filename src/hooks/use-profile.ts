@@ -19,6 +19,7 @@ export function useProfile(): UseProfileReturn {
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: router.push is stable
 	const fetchProfile = useCallback(async () => {
 		setIsLoading(true);
 		setError(null);

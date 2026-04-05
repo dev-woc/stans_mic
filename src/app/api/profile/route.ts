@@ -1,10 +1,10 @@
-import { asc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth/server";
 import { db } from "@/lib/db";
-import { linkItems, profiles } from "@/lib/db/schema";
+import { profiles } from "@/lib/db/schema";
 import { apiRateLimiter } from "@/lib/rate-limit";
-import { profileSchema, slugSchema } from "@/lib/validations";
+import { profileSchema } from "@/lib/validations";
 
 async function getUser() {
 	const { data } = await auth.getSession();
@@ -27,16 +27,7 @@ export async function GET(request: NextRequest) {
 		where: eq(profiles.userId, user.id),
 	});
 
-	if (!profile) {
-		return NextResponse.json({ profile: null, links: [] });
-	}
-
-	const links = await db.query.linkItems.findMany({
-		where: eq(linkItems.profileId, profile.id),
-		orderBy: [asc(linkItems.sortOrder)],
-	});
-
-	return NextResponse.json({ profile, links });
+	return NextResponse.json({ profile: profile ?? null });
 }
 
 export async function POST(request: NextRequest) {
@@ -51,7 +42,6 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	// Check if profile already exists
 	const existing = await db.query.profiles.findFirst({
 		where: eq(profiles.userId, user.id),
 	});
@@ -60,25 +50,17 @@ export async function POST(request: NextRequest) {
 	}
 
 	const body = await request.json();
-	const slugResult = slugSchema.safeParse(body.slug);
-	if (!slugResult.success) {
-		return NextResponse.json({ error: slugResult.error.issues[0]?.message }, { status: 400 });
-	}
-
-	// Check slug uniqueness
-	const slugTaken = await db.query.profiles.findFirst({
-		where: eq(profiles.slug, body.slug),
-	});
-	if (slugTaken) {
-		return NextResponse.json({ error: "Username is already taken" }, { status: 409 });
+	const result = profileSchema.safeParse(body);
+	if (!result.success) {
+		return NextResponse.json({ error: result.error.issues[0]?.message }, { status: 400 });
 	}
 
 	const [profile] = await db
 		.insert(profiles)
 		.values({
 			userId: user.id,
-			slug: body.slug,
-			displayName: body.displayName || "",
+			displayName: result.data.displayName,
+			avatarUrl: result.data.avatarUrl,
 		})
 		.returning();
 
@@ -107,9 +89,7 @@ export async function PUT(request: NextRequest) {
 		.update(profiles)
 		.set({
 			displayName: result.data.displayName,
-			bio: result.data.bio,
 			avatarUrl: result.data.avatarUrl,
-			theme: result.data.theme,
 			updatedAt: new Date(),
 		})
 		.where(eq(profiles.userId, user.id))

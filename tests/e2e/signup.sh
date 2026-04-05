@@ -16,26 +16,22 @@ agent-browser find label "Name" fill "Test User"
 agent-browser find label "Email" fill "test-$(date +%s)@example.com"
 agent-browser find label "Password" fill "TestPassword123!"
 
-# Fill slug and wait for availability check
-agent-browser find label "Username" fill "testuser-$(date +%s)"
-agent-browser wait 1000  # Wait for debounced slug check
-
 # Take screenshot before submit
 agent-browser screenshot tests/e2e/screenshots/signup-filled.png
 
 # Submit the form
 agent-browser find role button click --name "Create Account"
 
-# Wait for redirect to editor
-agent-browser wait --url "**/editor"
+# Wait for redirect to distill
+agent-browser wait --url "**/distill"
 agent-browser wait --load networkidle
 
-# Verify we're on the editor page
+# Verify we're on the distill page
 URL=$(agent-browser get url)
-if [[ "$URL" == *"/editor"* ]]; then
-  echo "PASS: Redirected to editor after signup"
+if [[ "$URL" == *"/distill"* ]]; then
+  echo "PASS: Redirected to /distill after signup"
 else
-  echo "FAIL: Expected /editor, got $URL"
+  echo "FAIL: Expected /distill, got $URL"
   exit 1
 fi
 

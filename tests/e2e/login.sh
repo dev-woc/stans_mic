@@ -19,15 +19,15 @@ agent-browser find label "Password" fill "$TEST_USER_PASSWORD"
 agent-browser find role button click --name "Sign In"
 
 # Wait for redirect
-agent-browser wait --url "**/editor"
+agent-browser wait --url "**/distill"
 agent-browser wait --load networkidle
 
 # Verify
 URL=$(agent-browser get url)
-if [[ "$URL" == *"/editor"* ]]; then
+if [[ "$URL" == *"/distill"* ]]; then
   echo "PASS: Logged in and redirected to editor"
 else
-  echo "FAIL: Expected /editor, got $URL"
+  echo "FAIL: Expected /distill, got $URL"
   exit 1
 fi
 
