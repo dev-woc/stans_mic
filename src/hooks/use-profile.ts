@@ -2,11 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import type { LinkItem, Profile } from "@/types";
+import type { Profile } from "@/types";
 
 interface UseProfileReturn {
 	profile: Profile | null;
-	links: LinkItem[];
 	isLoading: boolean;
 	error: string | null;
 	refetch: () => Promise<void>;
@@ -15,7 +14,6 @@ interface UseProfileReturn {
 export function useProfile(): UseProfileReturn {
 	const router = useRouter();
 	const [profile, setProfile] = useState<Profile | null>(null);
-	const [links, setLinks] = useState<LinkItem[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +34,6 @@ export function useProfile(): UseProfileReturn {
 
 			const data = await res.json();
 			setProfile(data.profile);
-			setLinks(data.links ?? []);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to load profile");
 		} finally {
@@ -48,5 +45,5 @@ export function useProfile(): UseProfileReturn {
 		fetchProfile();
 	}, [fetchProfile]);
 
-	return { profile, links, isLoading, error, refetch: fetchProfile };
+	return { profile, isLoading, error, refetch: fetchProfile };
 }
